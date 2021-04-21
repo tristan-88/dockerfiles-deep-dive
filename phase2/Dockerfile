@@ -22,3 +22,13 @@
 
 # Step 8. Run the application with command '/sbin/tini -- node app.js'.
 #   Lookup the CMD syntax if you need a reminder.
+
+FROM node:alpine
+EXPOSE 8081
+RUN apk add --update tini
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install\
+    npm cache clean --force
+COPY . .
+CMD /sbin/tini -- node app.js
